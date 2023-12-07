@@ -1,0 +1,6 @@
+cflags = -Wall -lsfml-graphics -lsfml-window -lsfml-system
+
+rule cc
+  command = clang++ $cflags $in -o $out
+
+build display: cc display.cpp
