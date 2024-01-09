@@ -148,5 +148,31 @@ void Chip8::OP_8XY7(){
 }
 
 void Chip8::OP_8XYE() {
-  
+  uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+
+  registers[0xF] = (registers[Vx] & 0x1u);
+  registers[Vx] <<= 1;
+}
+
+void Chip8::OP_9XY0() {
+  uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+  uint8_t Vy = (opcode & 0x00F0u) >> 4u;
+
+  if (Vx != Vy) {
+    pc += 2;
+  }
+}
+
+void Chip8::OP_ANNN() {
+  index = opcode & 0x0FFFu;
+}
+
+void Chip8::OP_BNNN() {
+  uint8_t adr = opcode & 0x0FFF;
+  pc = registers[0] + adr;
+}
+
+void Chip8::OP_CXNN() {
+  uint8_t Vx = (opcode & 0x0F00u) >> 8u;
+  registers[Vx] = randByte();
 }
